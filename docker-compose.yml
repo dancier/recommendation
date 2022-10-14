@@ -1,8 +1,20 @@
 version: "3.9"
 services:
-  web:
-    build: .
+  recommendation-db:
+    image: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: recommendation
+      POSTGRES_PASSWORD: recommendation
+      POSTGRES_DB: recommendation
+    volumes:
+      - ./volumes/recommendation-db:/var/lib/postgresql/
+  s3:
+    image: quay.io/minio/minio
     ports:
-      - "8000:5000"
-  redis:
-    image: "redis:alpine"
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: S3_ADMIN_PASSWD
+    command: server /data --console-address ":9001"
