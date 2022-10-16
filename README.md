@@ -31,6 +31,18 @@ http://localhost:5050
 
 (see username/password in docker-compose file)
 
+### creating a bucket
+
+(once the services where started locally as seen above)
+
+http://localhost:9001
+
+(see username/password in docker-compose file)
+
+create a bucket called test
+
+set the visibility of the bucket to public
+
 ### developing locally
 
 using a virtualenv is strongly recommended:
