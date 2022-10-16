@@ -1,14 +1,32 @@
 version: "3.9"
 services:
+
+  recommendation:
+    build: .
+    ports:
+      - "5000:5000"
+
   recommendation-db:
     image: postgres
     restart: unless-stopped
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_USER: recommendation
       POSTGRES_PASSWORD: recommendation
       POSTGRES_DB: recommendation
     volumes:
       - ./volumes/recommendation-db:/var/lib/postgresql/
+  pg-admin:
+    image: dpage/pgadmin4:latest
+    restart: unless-stopped
+    ports:
+      - "5050:80"
+    volumes:
+      - ./volumes/pg-admin:/var/lib/pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@dancier.net
+      PGADMIN_DEFAULT_PASSWORD: secret
   s3:
     image: quay.io/minio/minio
     ports:
