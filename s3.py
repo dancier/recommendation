@@ -2,8 +2,13 @@ from minio import Minio
 from config import Config
 
 
+def sync():
+    print("Getting all events from S3 and Updates DB accordingly")
+    pass
+
 def test():
     return Config.S3_SECRET
+
 
 
 class Connection:
