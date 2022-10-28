@@ -1,3 +1,4 @@
 flask
 minio
 psycopg2-binary
+gunicorn

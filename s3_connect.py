@@ -1,4 +1,9 @@
 from minio import Minio
+from config import Config
+
+
+def test():
+    return Config.S3_SECRET
 
 
 class Connection:
