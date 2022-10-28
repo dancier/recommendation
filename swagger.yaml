@@ -2,16 +2,16 @@ openapi: 3.0.2
 info:
   title: recommendation
   version: '1.1'
-servers:
-  - url: 'https://localhost:5000'
-  - url: 'http://recommendation'
 paths:
-  recommendations/{dancerId}:
-  get:
-    parameters:
-      - in: path
-        name: dancerId
-        schema:
-          type: string
-        required: true
-        description: the dancerId for which we computed the recommendations
+  /recommendations/{dancerId}:
+    get:
+      parameters:
+        - in: path
+          name: dancerId
+          schema:
+            type: string
+          required: true
+          description: the dancerId for which we computed the recommendations
+      responses:
+        '200':
+          description: 'the computed responses'
