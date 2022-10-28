@@ -15,3 +15,31 @@ paths:
       responses:
         '200':
           description: 'the computed responses'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/recommendations_response'
+
+components:
+  schemas:
+    recommendations_response:
+      type: array
+      items:
+        type: object
+        properties:
+          type:
+            type: string
+            enum:
+              - DANCER
+              - SCHOOL
+              - EVENT
+              - SHOP
+              - ETC
+            example:
+            - DANCER
+          id:
+            type: string
+            description: identifier to look up the recommended item.
+          score:
+            type: integer
+            description: Number between 0 and 100. 0 would mean does not fit at all, while 100 is kind of perfect fit.
