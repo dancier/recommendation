@@ -1,4 +1,5 @@
 from flask import Flask
+
 import schedule
 
 app = Flask(__name__)

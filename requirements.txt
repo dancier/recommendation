@@ -3,3 +3,4 @@ minio
 psycopg2-binary
 gunicorn
 APScheduler
+requests
