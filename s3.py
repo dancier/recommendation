@@ -20,7 +20,6 @@ def jwt():
 
 
 class Connection:
-    client = None
 
     def connect(self):
         provider = WebIdentityProvider(jwt_provider_func=lambda: jwt(),
@@ -29,8 +28,13 @@ class Connection:
         )
         self.client = Minio("test-s3.dancier.net:443", credentials=provider)
 
-    def list(self, bucket_name):
-        result = list()
+    def process_all(self, bucket_name):
+        import importer
         for obj in self.client.list_objects(bucket_name, recursive=True):
-            result.append(obj.object_name)
-        return result
+            if not obj.is_dir:
+                try:
+                    response = self.client.get_object(bucket_name, obj.object_name)
+                    importer.from_s3_into_db(response.data.decode())
+                finally:
+                    response.close()
+                    response.release_conn()
