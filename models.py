@@ -13,5 +13,11 @@ class Eventlog(Base):
     user_id = Column(UUID(as_uuid=True))
     roles = Column(ARRAY(TEXT))
 
-    def __init__(self, topic):
+    def __init__(self, id, topic, meta_data, payload, created, user_id, roles):
+        self.id = id
         self.topic = topic
+        self.meta_data = meta_data
+        self.payload = payload,
+        self.created = created
+        self.user_id = user_id
+        self.roles = roles
