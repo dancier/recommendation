@@ -23,10 +23,10 @@ class Connection:
 
     def connect(self):
         provider = WebIdentityProvider(jwt_provider_func=lambda: jwt(),
-            sts_endpoint="https://test-s3.dancier.net",
+            sts_endpoint=Config.S3_STS_ENDPOINT,
             duration_seconds=86400
         )
-        self.client = Minio("test-s3.dancier.net:443", credentials=provider)
+        self.client = Minio(Config.S3_HOST, credentials=provider)
 
     def process_all(self, bucket_name):
         import importer
