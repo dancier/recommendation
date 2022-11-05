@@ -14,11 +14,11 @@ def jwt():
         "client_secret": Config.S3_SECRET,
         "grant_type": "client_credentials"
     }
-    print("Attempting to get JWT " + from_multipart_payload)
+    print("Attempting to get JWT " + str(from_multipart_payload))
     res = requests.post(
         Config.S3_TOKENURI, data=from_multipart_payload, headers=headers
     ).json()
-    print("Got Jwt" + res)
+    print("Got Jwt" + str(res))
     return res
 
 
