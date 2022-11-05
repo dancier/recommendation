@@ -35,11 +35,19 @@ components:
               - EVENT
               - SHOP
               - ETC
-            example:
-            - DANCER
-          id:
+            example: DANCER
+          recommendationId:
             type: string
-            description: identifier to look up the recommended item.
+            description: identifier for one concrete recommendation.
+          recommendationTime:
+            type: string
+            description: when this concrete recommendation has been computed.
+          targedId:
+            type: string
+            description: the id of the recommended item. In case of a recommended dancer this would be the dancerId
+          targedTime:
+            type: string
+            description: the time of the last update of the recommendated resource. In case of a dancer this would be his last profile update
           score:
             type: integer
             description: Number between 0 and 100. 0 would mean does not fit at all, while 100 is kind of perfect fit.

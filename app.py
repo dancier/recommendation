@@ -3,7 +3,6 @@ from database import db_session
 import schedule
 
 app = Flask(__name__)
-
 app.config.from_object("config.Config")
 
 schedule.init()
@@ -11,12 +10,16 @@ schedule.init()
 
 @app.route("/recommendations/<dancerid>")
 def recommendations(dancerid):
-    return dancerid
+    res = {
+        "type": "DANCER",
+        "recommendationId": "string",
+        "recommendationTime": "string",
+        "targedId": "string",
+        "targedTime": "string",
+        "score": 0
+    }
+    return res
 
-
-@app.route("/")
-def hello():
-    return 'Unicorn'
 
 @app.teardown_appcontext
 def shutdown_session(exception=None):
