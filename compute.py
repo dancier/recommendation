@@ -1,6 +1,7 @@
 import s3
 import datetime
 from config import Config
+from os import getpid
 
 
 def run():
@@ -10,7 +11,9 @@ def run():
     con.connect()
     con.process_all(Config.S3_BUCKET)
     end_of_sync = datetime.datetime.now()
-    print("Processing time: " + str(end_of_sync - start_of_sync))
+    print("Processing time: "
+          + str(end_of_sync - start_of_sync)
+          + " on worker: " + str(getpid()))
 
     print("Computing new matches")
     print("Storing results in database")
