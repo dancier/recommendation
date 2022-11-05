@@ -4,3 +4,6 @@ psycopg2-binary
 gunicorn
 APScheduler
 requests
+SQLAlchemy
+flask-shell-ipython
+ciso8601
