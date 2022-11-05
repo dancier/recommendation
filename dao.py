@@ -24,5 +24,6 @@ class EventlogDao:
                 }]
                 )
                 conn.commit()
+                print("Stored {}".format(eventlog))
             except IntegrityError:
-                print("Event was already stored...")
+                pass
