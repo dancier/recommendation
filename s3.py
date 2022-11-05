@@ -15,11 +15,12 @@ def jwt():
         "grant_type": "client_credentials"
     }
     print("Attempting to get JWT " + str(from_multipart_payload))
+    print("With: " + Config.S3_TOKENURI)
     res = requests.post(
         Config.S3_TOKENURI, data=from_multipart_payload, headers=headers
-    ).json()
-    print("Got Jwt" + str(res))
-    return res
+    )
+    print("Got res" + str(res))
+    return res.json()
 
 
 class Connection:
