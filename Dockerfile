@@ -11,4 +11,4 @@ RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 EXPOSE 5000
 COPY . .
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "-w", "4", "app:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "-w", "4", "app:app", "--preload"]
