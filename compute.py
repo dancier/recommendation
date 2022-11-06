@@ -6,7 +6,7 @@ from os import getpid
 
 def run():
     start_of_sync = datetime.datetime.now()
-    print("Fetching current state from S3")
+    print("Fetching current state from S3: " + str(getpid()))
     con = s3.Connection()
     con.connect()
     con.process_all(Config.S3_BUCKET)

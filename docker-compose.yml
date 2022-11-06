@@ -18,7 +18,7 @@ services:
       POSTGRES_PASSWORD: recommendation
       POSTGRES_DB: recommendation
     volumes:
-      - ./volumes/recommendation-db:/var/lib/postgresql/
+      - ./volumes/recommendation-db:/var/lib/postgresql/data
   s3:
     image: quay.io/minio/minio
     ports:
