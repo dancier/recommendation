@@ -48,6 +48,9 @@ components:
           targedTime:
             type: string
             description: the time of the last update of the recommendated resource. In case of a dancer this would be his last profile update
+          targetVersion:
+            type: integer
+            description: version of the recommended resource (if available)
           score:
             type: integer
             description: Number between 0 and 100. 0 would mean does not fit at all, while 100 is kind of perfect fit.

@@ -16,6 +16,7 @@ def recommendations(dancerid):
         "recommendationTime": "string",
         "targedId": "string",
         "targedTime": "string",
+        "targetVersion": 1,
         "score": 0
     }
     return res
