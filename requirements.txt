@@ -7,3 +7,4 @@ requests
 SQLAlchemy
 flask-shell-ipython
 ciso8601
+alembic
