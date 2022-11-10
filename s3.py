@@ -23,11 +23,14 @@ def jwt():
 
 class Connection:
 
+    def __init__(self):
+        self.client = None
+
     def connect(self):
         provider = WebIdentityProvider(jwt_provider_func=lambda: jwt(),
-            sts_endpoint=Config.S3_STS_ENDPOINT,
-            duration_seconds=86400
-        )
+                                       sts_endpoint=Config.S3_STS_ENDPOINT,
+                                       duration_seconds=86400
+                                       )
         self.client = Minio(Config.S3_HOST, credentials=provider)
 
     def process_all(self, bucket_name):
