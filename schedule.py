@@ -13,7 +13,7 @@ def init():
         jobstores={'default': SQLAlchemyJobStore(url='sqlite:///jobs.sqlite')})
     scheduler.start()
     scheduler.add_job(func=do_compute, trigger="interval", next_run_time=datetime.now() + timedelta(seconds=5),
-                      seconds=600
+                      seconds=3600
                       )
     # Shut down the scheduler when exiting the app
     atexit.register(lambda: scheduler.shutdown())

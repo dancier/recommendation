@@ -17,10 +17,31 @@ depends_on = None
 
 
 def upgrade() -> None:
-    op.create_table("foo")
+    op.get_bind().execute("""
+    -- Table: public.eventlog
+
+    -- DROP TABLE IF EXISTS public.eventlog;
+    
+    CREATE TABLE IF NOT EXISTS public.eventlog
+    (
+        id uuid NOT NULL,
+        topic character varying(256) COLLATE pg_catalog."default",
+        meta_data jsonb,
+        payload jsonb,
+        created timestamp without time zone,
+        user_id uuid,
+        roles text[] COLLATE pg_catalog."default",
+        CONSTRAINT eventlog_pkey PRIMARY KEY (id)
+    )
+    
+    TABLESPACE pg_default;
+    
+    ALTER TABLE IF EXISTS public.eventlog
+        OWNER to recommendation;
+    """)
     pass
 
 
 def downgrade() -> None:
-    op.drop_table("foo")
+    op.drop_table("eventlog")
     pass
