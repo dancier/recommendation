@@ -31,7 +31,7 @@ declare
 begin
    truncate pairs;
    for any_dancer in select *
-          from dancer_locations
+          from dancers
    loop
    		counter := counter + 1;
 		for near_dancer in select * from surroundings(any_dancer.dancer_id)

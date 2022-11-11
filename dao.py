@@ -4,6 +4,17 @@ from sqlalchemy.exc import IntegrityError
 from database import engine
 
 
+class PairsDao:
+
+    @staticmethod
+    def do_for_all():
+        with engine.connect() as conn:
+            stm = "SELECT * FROM pairs;"
+            result = conn.execute(text(stm))
+            for entry in result:
+                print(entry)
+
+
 class EventlogDao:
 
     @staticmethod
@@ -22,7 +33,7 @@ class EventlogDao:
                     "user_id": eventlog.user_id,
                     "roles": eventlog.roles
                 }]
-                )
+                             )
                 conn.commit()
                 print("Stored {}".format(eventlog))
             except IntegrityError:

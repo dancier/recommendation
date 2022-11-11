@@ -49,3 +49,7 @@ $$
 
 def downgrade() -> None:
     op.drop_table("pairs")
+    op.execute("""
+        drop FUNCTION if exists array_uniq_sort(anyarray);
+        drop FUNCTION if exists insert_pair(a_dancer_id uuid, b_dancer_id uuid);
+    """)

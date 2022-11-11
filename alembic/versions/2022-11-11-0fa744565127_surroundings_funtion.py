@@ -34,16 +34,16 @@ $BODY$
 	long_min float;
 	long_max float;
   BEGIN
-    select * from dancer_locations into dancer where dancer_locations.dancer_id = dancer_id_ limit 1;
+    select * from dancers into dancer where dancers.dancer_id = dancer_id_ limit 1;
 	lat_min := dancer.latitude - 0.8;
 	lat_max := dancer.latitude + 0.8;
 	long_min := dancer.longitude - 0.8;
 	long_max := dancer.longitude + 0.8;
 	return query
-		select dancer_locations.dancer_id 
-		  from dancer_locations
-		 where dancer_locations.longitude BETWEEN long_min AND long_max
-		   and dancer_locations.latitude  BETWEEN lat_min AND lat_max;
+		select dancers.dancer_id 
+		  from dancers
+		 where dancers.longitude BETWEEN long_min AND long_max
+		   and dancers.latitude  BETWEEN lat_min AND lat_max;
   END;
 $BODY$ LANGUAGE plpgsql;
     """)

@@ -18,8 +18,8 @@ depends_on = None
 
 def upgrade() -> None:
     op.execute("""
-DROP MATERIALIZED VIEW IF EXISTS dancer_locations;
-CREATE MATERIALIZED VIEW DANCER_LOCATIONS AS WITH MAX_VERSION_PER_DANCER AS
+DROP MATERIALIZED VIEW IF EXISTS dancers;
+CREATE MATERIALIZED VIEW DANCERS AS WITH MAX_VERSION_PER_DANCER AS
 	(SELECT (PAYLOAD ->> 'id') AS DANCER_ID,
 			MAX((PAYLOAD ->> 'version')::integer) AS "version"
 		FROM EVENTLOG
@@ -28,7 +28,9 @@ CREATE MATERIALIZED VIEW DANCER_LOCATIONS AS WITH MAX_VERSION_PER_DANCER AS
 	) 
 	SELECT DANCER_ID::uuid,
 	(PAYLOAD ->> 'longitude')::float AS LONGITUDE,
-	(PAYLOAD ->> 'latitude')::float AS LATITUDE
+	(PAYLOAD ->> 'latitude')::float AS LATITUDE,
+	payload as payload,
+	MAX_VERSION_PER_DANCER."version" AS "version"
 FROM MAX_VERSION_PER_DANCER
 JOIN EVENTLOG 
   ON MAX_VERSION_PER_DANCER.DANCER_ID = EVENTLOG.PAYLOAD ->> 'id' 
@@ -37,4 +39,4 @@ JOIN EVENTLOG
 
 
 def downgrade() -> None:
-    op.execute("""DROP MATERIALIZED VIEW IF EXISTS dancer_locations""")
+    op.execute("""DROP MATERIALIZED VIEW IF EXISTS dancers""")

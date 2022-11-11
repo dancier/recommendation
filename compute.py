@@ -16,4 +16,9 @@ def run():
           + " on worker: " + str(getpid()))
 
     print("Computing new matches")
+
     print("Storing results in database")
+
+
+def score(dancerA, dancerB):
+    return 0
