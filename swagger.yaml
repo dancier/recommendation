@@ -37,14 +37,18 @@ components:
               - ETC
             example: DANCER
           dancerVersion:
-            type: string
+            type: integer
             description: version of the dancers' profile
+            example: 1
           targedId:
             type: string
             description: the id of the recommended item. In case of a recommended dancer this would be the dancerId
+            example: f05fa3d2-62ab-11ed-a60b-abb65ae72838
           targetVersion:
             type: integer
             description: version of the recommended resource (if available)
+            example: 34
           score:
             type: integer
             description: Number between 0 and 100. 0 would mean does not fit at all, while 100 is kind of perfect fit.
+            example: 64
