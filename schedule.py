@@ -12,6 +12,7 @@ scheduler = BackgroundScheduler(
     jobstores={'default': SQLAlchemyJobStore(url='sqlite:///jobs.sqlite')})
 scheduler.remove_all_jobs()
 scheduler.start()
-scheduler.add_job(func=do_compute, trigger="cron", hour=18)
+if not scheduler.get_jobs():
+    scheduler.add_job(func=do_compute, trigger="cron", hour=18)
 # Shut down the scheduler when exiting the app
 atexit.register(lambda: scheduler.shutdown())
