@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, TIMESTAMP, ARRAY, TEXT
+from sqlalchemy import Column, String, TIMESTAMP, ARRAY, TEXT, INTEGER
 from database import Base
 from sqlalchemy.dialects.postgresql import UUID, JSONB
 import ciso8601
@@ -19,7 +19,7 @@ class Eventlog(Base):
         import json
         payload = json.loads(json_as_string)
         return Eventlog(
-            id = payload['id'],
+            id=payload['id'],
             topic=payload['topic'],
             meta_data=json.dumps(payload['metaData']),
             payload=json.dumps(payload['payload']),

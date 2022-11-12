@@ -2,6 +2,7 @@ import s3
 import datetime
 from config import Config
 from os import getpid
+from dao import PairsDao
 
 
 def run():
@@ -15,8 +16,10 @@ def run():
           + str(end_of_sync - start_of_sync)
           + " on worker: " + str(getpid()))
 
-    print("Computing new matches")
+    print("Computing the pairs...")
+    PairsDao.generate_pairs()
 
+    PairsDao.do_for_all()
     print("Storing results in database")
 
 

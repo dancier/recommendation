@@ -8,12 +8,10 @@ from datetime import timedelta
 
 # https://stackoverflow.com/questions/16053364/make-sure-only-one-worker-launches-the-apscheduler-event-in-a-pyramid-web-app-ru
 # consider switching to: https://testdriven.io/blog/flask-and-celery/
-def init():
-    scheduler = BackgroundScheduler(
-        jobstores={'default': SQLAlchemyJobStore(url='sqlite:///jobs.sqlite')})
-    scheduler.start()
-    scheduler.add_job(func=do_compute, trigger="interval", next_run_time=datetime.now() + timedelta(seconds=5),
-                      seconds=3600
-                      )
-    # Shut down the scheduler when exiting the app
-    atexit.register(lambda: scheduler.shutdown())
+scheduler = BackgroundScheduler(
+    jobstores={'default': SQLAlchemyJobStore(url='sqlite:///jobs.sqlite')})
+scheduler.remove_all_jobs()
+scheduler.start()
+scheduler.add_job(func=do_compute, trigger="cron", hour=23)
+# Shut down the scheduler when exiting the app
+atexit.register(lambda: scheduler.shutdown())

@@ -19,22 +19,23 @@ depends_on = None
 def upgrade() -> None:
     op.execute("""
 DROP MATERIALIZED VIEW IF EXISTS dancers;
-CREATE MATERIALIZED VIEW DANCERS AS WITH MAX_VERSION_PER_DANCER AS
-	(SELECT (PAYLOAD ->> 'id') AS DANCER_ID,
-			MAX((PAYLOAD ->> 'version')::integer) AS "version"
-		FROM EVENTLOG
-		WHERE TOPIC = 'profile-updated'
-		GROUP BY (PAYLOAD ->> 'id')
-	) 
-	SELECT DANCER_ID::uuid,
-	(PAYLOAD ->> 'longitude')::float AS LONGITUDE,
-	(PAYLOAD ->> 'latitude')::float AS LATITUDE,
-	payload as payload,
-	MAX_VERSION_PER_DANCER."version" AS "version"
-FROM MAX_VERSION_PER_DANCER
-JOIN EVENTLOG 
-  ON MAX_VERSION_PER_DANCER.DANCER_ID = EVENTLOG.PAYLOAD ->> 'id' 
-  and MAX_VERSION_PER_DANCER."version" = (PAYLOAD ->> 'version')::integer;
+CREATE MATERIALIZED VIEW dancers AS 
+	WITH max_version_per_dancer AS
+	(SELECT (payload ->> 'id')::uuid AS dancer_id,
+			MAX((payload ->> 'version')::integer) AS "version"
+		FROM eventlog
+		WHERE topic = 'profile-updated'
+		GROUP BY (payload ->> 'id')
+	)
+	SELECT dancer_id,
+		   (PAYLOAD ->> 'longitude')::float AS longitude,
+	       (PAYLOAD ->> 'latitude')::float AS LATITUDE,
+	       payload as payload,
+	       max_version_per_dancer."version" AS "version"
+ FROM max_version_per_dancer
+ JOIN eventlog 
+   ON max_version_per_dancer.dancer_id = (eventlog.payload->>'id')::uuid
+  AND max_version_per_dancer."version" = (payload->>'version')::integer;
     """)
 
 

@@ -36,6 +36,7 @@ class Connection:
     def process_all(self, bucket_name):
         import importer
         for obj in self.client.list_objects(bucket_name, recursive=True):
+            print(".", end='')
             if not obj.is_dir:
                 try:
                     response = self.client.get_object(bucket_name, obj.object_name)
