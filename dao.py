@@ -78,9 +78,18 @@ select dancer_b_version as my_version,
 
     @staticmethod
     def add_recommendation(dancer_a_id, dancer_a_version, dancer_b_id, dancer_b_version, score):
-        stm = "INSERT INTO recommendations " \
-              "(dancer_a_id, dancer_a_version, dancer_b_id, dancer_b_version, created, score)" \
-              "  values(:dancer_a_id, :dancer_a_version, :dancer_b_id, :dancer_b_version, :created, :score);"
+        if dancer_a_id>=dancer_b_id:
+            raise IntegrityError
+        stm = """
+        INSERT INTO recommendations 
+                      (dancer_a_id, dancer_a_version, dancer_b_id, dancer_b_version, created, score)
+               VALUES (:dancer_a_id, :dancer_a_version, :dancer_b_id, :dancer_b_version, :created, :score)
+        ON CONFLICT ON CONSTRAINT unique_recommendation_per_per DO 
+            UPDATE SET dancer_a_version = EXCLUDED.dancer_a_version,
+                       dancer_b_version = EXCLUDED.dancer_b_version,
+			           created = EXCLUDED.created,
+			           score = EXCLUDED.score;
+            """
         with engine.connect() as conn:
             conn.execute(text(stm), [
                 {

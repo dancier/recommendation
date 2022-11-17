@@ -1,10 +1,9 @@
 import atexit
+
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 from apscheduler.schedulers.background import BackgroundScheduler
-from compute import run as do_compute
-from datetime import datetime
-from datetime import timedelta
 
+from compute import run as do_compute
 
 # https://stackoverflow.com/questions/16053364/make-sure-only-one-worker-launches-the-apscheduler-event-in-a-pyramid-web-app-ru
 # consider switching to: https://testdriven.io/blog/flask-and-celery/
