@@ -12,6 +12,7 @@ scheduler = BackgroundScheduler(
 scheduler.remove_all_jobs()
 scheduler.start()
 if not scheduler.get_jobs():
+    print("Added a jobs, as queue is empty")
     scheduler.add_job(func=do_compute, trigger="cron", hour=18)
 # Shut down the scheduler when exiting the app
 atexit.register(lambda: scheduler.shutdown())
