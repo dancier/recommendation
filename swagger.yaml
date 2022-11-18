@@ -40,7 +40,7 @@ components:
             type: integer
             description: version of the dancers' profile
             example: 1
-          targedId:
+          targetId:
             type: string
             description: the id of the recommended item. In case of a recommended dancer this would be the dancerId
             example: f05fa3d2-62ab-11ed-a60b-abb65ae72838
