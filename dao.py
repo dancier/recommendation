@@ -66,7 +66,7 @@ select dancer_b_version as my_version,
             ])
             for row in result:
                 reco = {
-                    "type": "dancer",
+                    "type": "DANCER",
                     "dancerVersion": row[0],
                     "targetId": str(row[1]),
                     "targetVersion": row[2],
