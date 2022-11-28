@@ -1,9 +1,10 @@
 from flask import Flask
 from database import db_session
-from schedule import scheduler
+from prometheus_flask_exporter import PrometheusMetrics
 
 app = Flask(__name__)
 app.config.from_object("config.Config")
+metrics = PrometheusMetrics(app)
 
 from dao import PairsDao
 
