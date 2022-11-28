@@ -1,6 +1,7 @@
 from flask import Flask
 from database import db_session
 from prometheus_flask_exporter import PrometheusMetrics
+from schedule import scheduler
 
 app = Flask(__name__)
 app.config.from_object("config.Config")
