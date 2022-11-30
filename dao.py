@@ -1,10 +1,23 @@
 from datetime import datetime
-
+from score import compute as compute_score
 from sqlalchemy import text
 from sqlalchemy.exc import IntegrityError
 
 from database import engine
 
+class DancerDao:
+    @staticmethod
+    def load_dancer(dancer_id):
+        stm = """
+            SELECT payload FROM dancers WHERE dancer_id = :dancer_id;
+        """
+        with engine.connect() as conn:
+            result = conn.execute(text(stm), [
+                {
+                    "dancer_id": dancer_id
+                }
+            ])
+            print(result.fetchone()[0])
 
 class PairsDao:
 
@@ -15,15 +28,12 @@ class PairsDao:
             result = conn.execute(text(stm))
             for entry in result:
                 pair = entry[0]
-                if len(pair) != 2:
-                    print("Warnung")
-                else:
-                    print(len(pair))
+                if len(pair) == 2:
                     a = pair[0]
                     b = pair[1]
-                    print("a: "+ str(a))
-                    print("b: "+ str(b))
-                    score = 40
+                    dancer_a = DancerDao.load_dancer(a)
+                    dancer_b = DancerDao.load_dancer(b)
+                    score = compute_score(dancer_a, dancer_b)
                     PairsDao.add_recommendation(
                         a,
                         1,
