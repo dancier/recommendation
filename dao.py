@@ -19,6 +19,7 @@ class DancerDao:
             ])
             return result.fetchone()[0]
 
+
 class PairsDao:
 
     @staticmethod

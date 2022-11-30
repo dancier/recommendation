@@ -21,7 +21,3 @@ def run():
 
     PairsDao.do_for_all()
     print("Storing results in database")
-
-
-def score(dancerA, dancerB):
-    return 0
