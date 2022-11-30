@@ -19,4 +19,4 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: dancier/recommendation:latest, dancier/recommendation:$(git rev-parse --short "$GITHUB_SHA")
+          tags: dancier/recommendation:latest, dancier/recommendation:${{ $(git rev-parse --short "$GITHUB_SHA") }}
