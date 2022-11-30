@@ -17,7 +17,7 @@ class DancerDao:
                     "dancer_id": dancer_id
                 }
             ])
-            print(result.fetchone()[0])
+            return result.fetchone()[0]
 
 class PairsDao:
 
