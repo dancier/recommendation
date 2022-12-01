@@ -18,7 +18,7 @@ def recommendations(dancerid):
 def batch():
     from compute import run as do_run
     scheduler.add_job(do_run)
-    return scheduler.get_jobs()
+    return str(scheduler.get_jobs())
 
 @app.teardown_appcontext
 def shutdown_session(exception=None):
