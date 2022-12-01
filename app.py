@@ -14,7 +14,7 @@ def recommendations(dancerid):
     return PairsDao.lookup_partners(dancerid)
 
 
-@app.route("batch")
+@app.route("/batch")
 def batch():
     from compute import run as do_run
     scheduler.add_job(do_run)
