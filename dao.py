@@ -5,6 +5,7 @@ from sqlalchemy.exc import IntegrityError
 
 from database import engine
 
+
 class DancerDao:
     @staticmethod
     def load_dancer(dancer_id):
@@ -88,21 +89,19 @@ select dancer_b_version as my_version,
 
 
     @staticmethod
-    def add_recommendation(dancer_a_id, dancer_a_version, dancer_b_id, dancer_b_version, score):
-        if dancer_a_id>=dancer_b_id:
-            raise IntegrityError
-        stm = """
-        INSERT INTO recommendations 
-                      (dancer_a_id, dancer_a_version, dancer_b_id, dancer_b_version, created, score)
-               VALUES (:dancer_a_id, :dancer_a_version, :dancer_b_id, :dancer_b_version, :created, :score)
-        ON CONFLICT ON CONSTRAINT unique_recommendation_per_per DO 
-            UPDATE SET dancer_a_version = EXCLUDED.dancer_a_version,
-                       dancer_b_version = EXCLUDED.dancer_b_version,
-			           created = EXCLUDED.created,
-			           score = EXCLUDED.score;
-            """
+    def __inner_update(dancer_a_id, dancer_a_version, dancer_b_id, dancer_b_version, score):
+        insert_statement = """
+                INSERT INTO recommendations 
+                              (dancer_a_id, dancer_a_version, dancer_b_id, dancer_b_version, created, score)
+                       VALUES (:dancer_a_id, :dancer_a_version, :dancer_b_id, :dancer_b_version, :created, :score)
+                ON CONFLICT ON CONSTRAINT unique_recommendation_per_per DO 
+                    UPDATE SET dancer_a_version = EXCLUDED.dancer_a_version,
+                               dancer_b_version = EXCLUDED.dancer_b_version,
+        			           created = EXCLUDED.created,
+        			           score = EXCLUDED.score;
+                    """
         with engine.connect() as conn:
-            conn.execute(text(stm), [
+            conn.execute(text(insert_statement), [
                 {
                     "dancer_a_id": dancer_a_id,
                     "dancer_a_version": dancer_a_version,
@@ -113,6 +112,41 @@ select dancer_b_version as my_version,
                 }
             ])
             conn.commit()
+
+    @staticmethod
+    def add_recommendation(dancer_a_id, dancer_a_version, dancer_b_id, dancer_b_version, score):
+        if dancer_a_id>=dancer_b_id:
+            raise IntegrityError
+        check_statement = """
+            select *
+              from recommendations 
+             where dancer_a_id = :dancer_a_id 
+               and dancer_b_id = :dancer_b_id;
+        """
+        with engine.connect() as conn:
+            res = conn.execute(text(check_statement), [
+                {
+                    "dancer_a_id": dancer_a_id,
+                    "dancer_b_id": dancer_b_id,
+                }
+            ])
+            first_row = res.first()
+            if first_row:
+                print(first_row)
+                old_version_a = first_row[1]
+                old_version_b = first_row[3]
+                old_score = first_row[5]
+                if (old_version_a == dancer_a_version) and (old_version_b == dancer_b_version):
+                    print("Not based on new profiles")
+                    if old_score != score:
+                        print("Still score changed, so I will updated")
+                        PairsDao.__inner_update(dancer_a_id, dancer_a_version, dancer_b_id, dancer_b_version, score)
+                        return
+                    else:
+                        print("Score has not changed so nothing will happen")
+                        return
+            print("New or updated entry: " +  str(dancer_a_id) + "/" + str(dancer_b_id))
+            PairsDao.__inner_update(dancer_a_id, dancer_a_version, dancer_b_id, dancer_b_version, score)
 
 
 class EventlogDao:
