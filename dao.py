@@ -37,9 +37,9 @@ class PairsDao:
                     score = compute_score(dancer_a, dancer_b)
                     PairsDao.add_recommendation(
                         a,
-                        1,
+                        dancer_a['version'],
                         b,
-                        2,
+                        dancer_b['version'],
                         score
                     )
 
