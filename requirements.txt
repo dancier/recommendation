@@ -9,3 +9,4 @@ flask-shell-ipython
 ciso8601
 alembic
 prometheus-flask-exporter
+geopy

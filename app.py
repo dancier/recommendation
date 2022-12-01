@@ -1,13 +1,13 @@
 from flask import Flask
 from database import db_session
 from prometheus_flask_exporter import PrometheusMetrics
+from dao import PairsDao
 from schedule import scheduler
 
 app = Flask(__name__)
 app.config.from_object("config.Config")
 metrics = PrometheusMetrics(app)
 
-from dao import PairsDao
 
 @app.route("/recommendations/<dancerid>")
 def recommendations(dancerid):
