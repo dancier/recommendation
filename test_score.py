@@ -211,7 +211,6 @@ def test_compute():
     import score
     same_city_not_matching_dances = score.compute(dancer_d_essen_salsa, dancer_f_essen_tango)
     different_city_matching_dances = score.compute(dancer_a_dortmund_tango, dancer_c_essen_tango)
-    print(same_city_not_matching_dances, different_city_matching_dances)
     assert different_city_matching_dances > same_city_not_matching_dances
 
 

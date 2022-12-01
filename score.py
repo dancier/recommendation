@@ -2,7 +2,9 @@
 def compute(dancer_a, dancer_b):
     distance_score = __compute_distance(dancer_a, dancer_b)
     dance_score = __compute_dance(dancer_a, dancer_b)
-    return int((distance_score + dance_score)/2);
+    score = int((distance_score + dance_score)/2)
+    print(score)
+    return score;
 
 
 def __compute_dance(dancer_a, dancer_b):
