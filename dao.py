@@ -132,20 +132,15 @@ select dancer_b_version as my_version,
             ])
             first_row = res.first()
             if first_row:
-                print(first_row)
                 old_version_a = first_row[1]
                 old_version_b = first_row[3]
                 old_score = first_row[5]
                 if (old_version_a == dancer_a_version) and (old_version_b == dancer_b_version):
-                    print("Not based on new profiles")
                     if old_score != score:
-                        print("Still score changed, so I will updated")
                         PairsDao.__inner_update(dancer_a_id, dancer_a_version, dancer_b_id, dancer_b_version, score)
                         return
                     else:
-                        print("Score has not changed so nothing will happen")
                         return
-            print("New or updated entry: " +  str(dancer_a_id) + "/" + str(dancer_b_id))
             PairsDao.__inner_update(dancer_a_id, dancer_a_version, dancer_b_id, dancer_b_version, score)
 
 
